@@ -1,0 +1,18 @@
+meta {
+  name: Metrics
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{mealPlannerUrl}}/metrics
+  body: none
+  auth: none
+}
+
+tests {
+  test("returns metrics", function () {
+    expect(res.status).to.equal(200);
+    expect(res.body).to.include("mealplanner");
+  });
+}

@@ -1,0 +1,18 @@
+meta {
+  name: Get invalid recipe id
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{recipeApiUrl}}/recipes/not-a-valid-id
+  body: none
+  auth: none
+}
+
+tests {
+  test("fails for invalid id", function () {
+    expect(res.status).to.equal(400);
+    expect(res.body.error).to.equal("Invalid recipe id");
+  });
+}

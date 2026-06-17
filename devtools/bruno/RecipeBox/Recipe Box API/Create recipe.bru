@@ -1,0 +1,31 @@
+meta {
+  name: Create recipe
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{recipeApiUrl}}/recipes
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "name": "Pasta Pesto",
+    "cuisine": "Italian",
+    "prepTimeMinutes": 20,
+    "ingredients": ["pasta", "pesto", "parmesan"]
+  }
+}
+
+tests {
+  test("creates recipe", function () {
+    expect(res.status).to.equal(201);
+    expect(res.body.recipe.name).to.equal("Pasta Pesto");
+  });
+}
