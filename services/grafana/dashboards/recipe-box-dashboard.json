@@ -1,0 +1,49 @@
+{
+  "uid": "recipe-box-platform",
+  "title": "Recipe Box Platform",
+  "schemaVersion": 39,
+  "version": 2,
+  "refresh": "5s",
+  "panels": [
+    {
+      "type": "stat",
+      "title": "Recipes created",
+      "gridPos": { "x": 0, "y": 0, "w": 8, "h": 5 },
+      "targets": [
+        { "expr": "recipe_box_recipes_created_total", "legendFormat": "recipes" }
+      ]
+    },
+    {
+      "type": "stat",
+      "title": "Meal plans created",
+      "gridPos": { "x": 8, "y": 0, "w": 8, "h": 5 },
+      "targets": [
+        { "expr": "meal_planner_plans_created_total", "legendFormat": "meal plans" }
+      ]
+    },
+    {
+      "type": "stat",
+      "title": "Services up",
+      "gridPos": { "x": 16, "y": 0, "w": 8, "h": 5 },
+      "targets": [
+        { "expr": "sum(up{job=~\"recipe-box-api|meal-planner-service\"})", "legendFormat": "up" }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Recipe API request duration p95",
+      "gridPos": { "x": 0, "y": 5, "w": 12, "h": 7 },
+      "targets": [
+        { "expr": "histogram_quantile(0.95, sum(rate(recipe_box_http_request_duration_seconds_bucket[1m])) by (le))", "legendFormat": "p95" }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Meal planner messages processed",
+      "gridPos": { "x": 12, "y": 5, "w": 12, "h": 7 },
+      "targets": [
+        { "expr": "sum(rate(meal_planner_messages_processed_total[1m])) by (status)", "legendFormat": "{{status}}" }
+      ]
+    }
+  ]
+}
