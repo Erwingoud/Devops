@@ -1,0 +1,18 @@
+meta {
+  name: List recipes
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{recipeApiUrl}}/recipes
+  body: none
+  auth: none
+}
+
+tests {
+  test("returns recipes array", function () {
+    expect(res.status).to.equal(200);
+    expect(res.body.recipes).to.be.an("array");
+  });
+}

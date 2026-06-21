@@ -1,0 +1,64 @@
+services:
+  recipe-box-api:
+    build: ./services/recipeBoxApi
+    container_name: recipe-box-api
+    environment:
+      PORT: 3000
+      MONGO_URL: mongodb://recipe-mongo:27017/recipe-box
+      RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
+      QUEUE_NAME: recipe.created
+    ports:
+      - "3000:3000"
+    depends_on:
+      recipe-mongo:
+        condition: service_started
+      rabbitmq:
+        condition: service_healthy
+
+  meal-planner-service:
+    build: ./services/mealPlannerService
+    container_name: meal-planner-service
+    environment:
+      PORT: 3001
+      MONGO_URL: mongodb://meal-planner-mongo:27017/meal-planner
+      RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
+      QUEUE_NAME: recipe.created
+    ports:
+      - "3002:3001"
+    depends_on:
+      meal-planner-mongo:
+        condition: service_started
+      rabbitmq:
+        condition: service_healthy
+
+  recipe-mongo:
+    image: mongo:7
+    container_name: recipe-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - recipe-mongo-data:/data/db
+
+  meal-planner-mongo:
+    image: mongo:7
+    container_name: meal-planner-mongo
+    ports:
+      - "27018:27017"
+    volumes:
+      - meal-planner-mongo-data:/data/db
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  recipe-mongo-data:
+  meal-planner-mongo-data:
