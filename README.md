@@ -105,17 +105,5 @@ Prometheus scrapes both services:
 
 Grafana has a provisioned dashboard named **Recipe Box Platform** with panels for both services.
 
-## Assignment mapping
-
-| Requirement                                        | Implementation                                          |
-| -------------------------------------------------- | ------------------------------------------------------- |
-| At least 1 externally reachable functional service | `recipe-box-api` on port `3000`                         |
-| GET and POST method                                | `GET /recipes`, `POST /recipes`                         |
-| At least 1 unittest for the public service         | `services/recipeBoxApi/tests/recipe.test.js`            |
-| Extra functional service with own database         | `meal-planner-service` with `meal-planner-mongo`        |
-| At least 1 unittest for the extra service          | `services/mealPlannerService/tests/mealPlanner.test.js` |
-| Services communicate via message queue             | RabbitMQ queue `recipe.created`                         |
-| Docker + Docker Compose                            | Root `docker-compose.yml` plus service Dockerfiles      |
-| Live monitoring                                    | Prometheus at `localhost:9090`                          |
-| Live dashboarding                                  | Grafana at `localhost:3001`                             |
-| CI / GitHub Classroom                              | Not added yet, as requested for later                   |
+CI status:
+[![CI](https://github.com/Erwingoud/Devops/actions/workflows/ci.yml/badge.svg)](https://github.com/Erwingoud/Devops/actions/workflows/ci.yml)
